@@ -1,10 +1,10 @@
 class PostsController < ApplicationController
+	before_action :set_post, only: %i[show edit update]
 	def index
 		@posts = Post.all
 	end
 
 	def show
-		@post = Post.find(params[:id])
 	end
 
 	def new
@@ -20,12 +20,17 @@ class PostsController < ApplicationController
 	end
 
 	def edit
-		@post = Post.find(params[:id])
 	end
 
 	def update
-	  @post = Post.find(params[:id])
-	  @post.update(title: params[:title], description: params[:description])
+	  @post.update(title: params[:post][:title], description: params[:post][:description])
+
 	  redirect_to post_path(@post)
+	end
+
+	private
+
+	def set_post
+		@post = Post.find(params[:id])
 	end
 end
